@@ -6,28 +6,23 @@ let loop;
 
 let fps = 60, fpsInterval, startTime, now, then, elapsed;
 
-function init() {
+function init(){
     fpsInterval = 1000 / fps;
     then = Date.now();
     startTime = then;
 
-    // TESTING CODE. REMOVE WHEN DONE TESTING.
+    //remove after done testing
     renderer.testRender();
     renderer.render();
-    // END TESTING CODE
-
     loop = requestAnimationFrame(step);
 }
 
-function step() {
+function step(){
     now = Date.now();
     elapsed = now - then;
+    if( elapsed > fpsInterval){
 
-    if (elapsed > fpsInterval) {
-        // Cycle the CPU. We'll come back to this later and fill it out.
     }
-
     loop = requestAnimationFrame(step);
 }
-
 init();
