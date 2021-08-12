@@ -21,13 +21,14 @@ class Speaker {
             this.oscillator.connect(this.gain);
             this.oscillator.start();
         }
+  
+    }
     stop(){
         if(this.oscillator){
             this.oscillator.stop();
             this.oscillator.disconect();
             this.oscillator = null;
         }
-    }
     }
 }
 
