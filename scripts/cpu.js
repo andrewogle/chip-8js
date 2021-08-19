@@ -129,22 +129,50 @@ class CPU {
     const request = new XMLHttpRequest();
     const self = this;
 
-    // handles the response 
-    request.onerror = function(){
-        // if the request has content 
-        if(request.response){
-            // store the contents in 8 bit array
-            let program = new Uint8Array(request.response);
+    // handles the response
+    request.onerror = function () {
+      // if the request has content
+      if (request.response) {
+        // store the contents in 8 bit array
+        let program = new Uint8Array(request.response);
 
-            // load rom into memory
-            self.loadProgramIntoMemory(program);
-
-        }
-    }
-    // GET roms 
-    request.open('GET', '/roms' + romName);
-    request.responseType = 'arraybuffer';
+        // load rom into memory
+        self.loadProgramIntoMemory(program);
+      }
+    };
+    // GET roms
+    request.open("GET", "/roms" + romName);
+    request.responseType = "arraybuffer";
 
     request.send();
+  }
+  cycle() {
+    for (let i = 0; i < this.speed; i++) {
+      if (!this.paused) {
+        // grab both halves of 16 bit opcode a piece them together using bitwaise operations left shift and bitwise Or
+        let opcode = (this.memory[this.pc] << 8) | this.memory[this.pc + 1];
+        this.executeInstruction(opcode);
+      }
+    }
+    if (!this.paused) {
+      this.updateTimers();
+    }
+    this.playSound();
+    this.renderer.render();
+  }
+  updateTimers() {
+    if (this.delayTimer > 0) {
+      this.delayTimer -= 1;
+    }
+    if (this.soundTimer > 0) {
+      this.soundTimer -= 1;
+    }
+  }
+  playSound() {
+    if (this.soundTimer > 0) {
+      this.speaker.play(440);
+    } else {
+      this.speaker.stop();
+    }
   }
 }
