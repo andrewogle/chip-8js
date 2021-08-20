@@ -248,24 +248,31 @@ class CPU {
       case 0x8000:
         //8xy0 - LD Vx, Vy
         switch (opcode & 0xf) {
+          //8xy0 - LD Vx, Vy
           // set the value of Vx to the value of Vy
           case 0x0:
             this.v[x] = this.v[y];
             break;
+
+          case 0x1:
             //8xy1 - OR Vx, Vy
             //set Vx to the value of Vx OR Vy
             this.v[x] |= this.v[y];
-          case 0x1:
+
+            break;
+          case 0x2:
             //8xy2 - AND Vx, Vy
             // set Vx to value of Vx AND Vy
             this.v[x] &= this.v[y];
+
             break;
-          case 0x2:
+          case 0x3:
             //8xy3 - XOR Vx, Vy
             // set Vx to the value of Vx XOR Vy
             this.v[x] ^= this.v[y];
+
             break;
-          case 0x3:
+          case 0x4:
             //8xy4 - ADD Vx, Vy
             // sets Vx to Vx + Vy
             //If the result is greater than 8 bits (i.e., > 255,)
@@ -281,25 +288,66 @@ class CPU {
 
             this.v[x] = sum;
             break;
-          case 0x4:
-            //
-            break;
           case 0x5:
+            //8xy5 - SUB Vx, Vy
+            // subtracts Vy and Vx
+            //If Vx > Vy, then VF is set to 1, otherwise 0.
+            //Then Vy is subtracted from Vx, and the results stored in Vx.
+            this.v[0xf] = 0;
+
+            if (this.v[x] > this.v[y]) {
+              this.v[0xf] = 1;
+            }
+
+            this.v[x] -= this.v[y];
             break;
           case 0x6:
+            //8xy6 - SHR Vx {, Vy}
+            //Set Vx = Vx SHR 1
+            //If the least-significant bit of Vx is 1, then VF is set to 1, otherwise 0.
+            this.v[0xf] = this.v[x] & 0x1;
+
+            this.v[x] >>= 1;
             break;
           case 0x7:
+            //8xy7 - SUBN Vx, Vy
+            //subtracts Vx from Vy and stores the result in Vx.
+            //If Vy is larger then Vx, we need to store 1 in VF, otherwise we store 0.
+            this.v[0xf] = 0;
+
+            if (this.v[y] > this.v[x]) {
+              this.v[0xf] = 1;
+            }
+
+            this.v[x] = this.v[y] - this.v[x];
             break;
           case 0xe:
+            //8xyE - SHL Vx {, Vy}
+            //
+            this.v[0xf] = this.v[x] & 0x80;
+            this.v[x] <<= 1;
             break;
         }
 
         break;
       case 0x9000:
+        //9xy0 - SNE Vx, Vy
+        //increment the program counter by 2 if Vx and Vy are not equal
+        if(this.v[x] !== this.v[y]){
+          this.pc += 2;
+        }
         break;
       case 0xa000:
+        //Annn - LD I, addr
+        //Set the value of register i to nnn. 
+        //If the opcode is 0xA740 then (opcode & 0xFFF) will return 0x740
+        this.i = (opcode & 0xFFF);
         break;
       case 0xb000:
+        //Bnnn - JP V0, addr
+        //Set the program counter (this.pc) to nnn plus the value of register 0 (V0)
+        this.pc = (opcode & 0xFFF) + this.v[0];  
+
         break;
       case 0xc000:
         break;
