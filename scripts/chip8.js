@@ -20,6 +20,7 @@ function init() {
 	cpu.loadSpritesIntoMemory();
 	cpu.loadRom('BLITZ');
 	loop = requestAnimationFrame(step);
+	console.log("initiated!")
 }
 
 function step() {
