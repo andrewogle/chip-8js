@@ -50,6 +50,8 @@ class CPU {
             0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
             0xF0, 0x80, 0xF0, 0x80, 0x80  // F
         ];
+
+      
     
         // According to the technical reference, sprites are stored in the interpreter section of memory starting at hex 0x000
         for (let i = 0; i < sprites.length; i++) {
@@ -57,8 +59,18 @@ class CPU {
         }
         console.log("memory! :", this.memory)
     }
+    reset(){
+        this.memory = new Uint8Array(4096);
+        this.v = new Uint8Array(16);
+        this.delayTimer = 0;
+		this.soundTimer = 0;
+        this.i = 0;
+        this.pc = 0x200;
+        this.stack = new Array();
+    }
 
     loadProgramIntoMemory(program) {
+        this.reset();
         for (let loc = 0; loc < program.length; loc++) {
             this.memory[0x200 + loc] = program[loc];
         }
