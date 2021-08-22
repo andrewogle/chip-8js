@@ -32,6 +32,7 @@ function step() {
 	}
 
 	loop = requestAnimationFrame(step);
+	console.log("stepping")
 }
 
 init();

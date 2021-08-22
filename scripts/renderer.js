@@ -30,7 +30,7 @@ class Renderer {
         let pixelLoc = x + (y * this.cols);
 
         this.display[pixelLoc] ^= 1;
-
+        console.log("here is a pixel location :" , pixelLoc)
         return !this.display[pixelLoc];
     }
 
@@ -54,9 +54,11 @@ class Renderer {
             if (this.display[i]) {
                 // Set the pixel color to black
                 this.ctx.fillStyle = '#1fc742';
+
     
                 // Place a pixel at position (x, y) with a width and height of scale
                 this.ctx.fillRect(x, y, this.scale, this.scale);
+                // console.log("pixle placed at ", x," and", y)
             }
         }
     }
