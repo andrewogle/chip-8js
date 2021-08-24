@@ -57,7 +57,7 @@ class CPU {
         for (let i = 0; i < sprites.length; i++) {
             this.memory[i] = sprites[i];
         }
-        console.log("memory! :", this.memory)
+        
     }
     reset(){
         this.memory = new Uint8Array(4096);
@@ -68,6 +68,7 @@ class CPU {
         this.pc = 0x200;
         this.stack = new Array();
     }
+
 
     loadProgramIntoMemory(program) {
         this.reset();
@@ -121,7 +122,7 @@ class CPU {
     updateTimers() {
         if (this.delayTimer > 0) {
             this.delayTimer -= 1;
-            console.log("timer updated!")
+            
         }
     
         if (this.soundTimer > 0) {
@@ -153,7 +154,7 @@ class CPU {
                 switch (opcode) {
                     case 0x00E0:
                         this.renderer.clear();
-                        console.log("cleared!")
+                    
                         break;
                     case 0x00EE:
                         this.pc = this.stack.pop();
@@ -283,7 +284,7 @@ class CPU {
                         sprite <<= 1;
                     }
                 }
-                console.log("drawing")
+                
                 break;
             case 0xE000:
                 switch (opcode & 0xFF) {

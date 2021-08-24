@@ -11,7 +11,13 @@ const cpu = new CPU(renderer, keyboard, speaker);
 let loop;
 
 let fps = 60, fpsInterval, startTime, now, then, elapsed;
-
+const button = document.getElementsByClassName('rom')
+function changeRom(){
+	let rom = button[0].textContent;
+	cpu.loadRom(rom)
+	console.log("rom changed")
+}
+button[0].addEventListener('click', changeRom,false)
 function init() {
 	fpsInterval = 1000 / fps;
 	then = Date.now();
@@ -20,7 +26,7 @@ function init() {
 	cpu.loadSpritesIntoMemory();
 	cpu.loadRom('BLITZ');
 	loop = requestAnimationFrame(step);
-	console.log("initiated!")
+	
 }
 
 function step() {
@@ -32,7 +38,6 @@ function step() {
 	}
 
 	loop = requestAnimationFrame(step);
-	console.log("stepping")
 }
 
 init();

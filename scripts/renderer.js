@@ -30,7 +30,7 @@ class Renderer {
         let pixelLoc = x + (y * this.cols);
 
         this.display[pixelLoc] ^= 1;
-        console.log("here is a pixel location :" , pixelLoc)
+    
         return !this.display[pixelLoc];
     }
 
