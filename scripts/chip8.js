@@ -13,11 +13,27 @@ let loop;
 let fps = 60, fpsInterval, startTime, now, then, elapsed;
 const button = document.getElementsByClassName('rom')
 function changeRom(){
-	let rom = button[0].textContent;
+	let rom = btn.textContent;
 	cpu.loadRom(rom)
-	console.log("rom changed")
+	console.log(rom)
 }
-button[0].addEventListener('click', changeRom,false)
+// button.forEach(element => {
+// 	element.addEventListener('click',()=>{
+// 		let rom = element.textContent;
+// 		cpu.loadRom(rom);
+// 		console.log(rom);
+// 	})
+// });
+for(let btn of button){
+	btn.addEventListener('click', ()=>{
+		let rom = btn.textContent;
+		renderer.clear()
+		cpu.loadRom(rom)
+		console.log(rom)
+	},false)
+}
+console.log('here is the button var', button)
+// button[0].addEventListener('click', changeRom,false)
 function init() {
 	fpsInterval = 1000 / fps;
 	then = Date.now();
