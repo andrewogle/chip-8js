@@ -27,7 +27,7 @@ function changeRom(){
 for(let btn of button){
 	btn.addEventListener('click', ()=>{
 		let rom = btn.textContent;
-		renderer.clear()
+		// renderer.clear()
 		cpu.loadRom(rom)
 		console.log(rom)
 	},false)

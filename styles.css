@@ -1,12 +1,32 @@
 body {
   background-color: #010101;
 }
-
+.main{
+  display: grid;
+  flex-direction: column;
+  justify-content: space-around;
+  justify-items: center;
+}
+.display{
+  width: 100%;
+  display: grid;
+  justify-items: center;
+}
 canvas {
   border: 2px solid #025b18;
 }
 
+
 .digital {
   font-family: "Press Start 2P", cursive;
   color: #1fc742;
+}
+.rom{
+  border: 1px solid #1fc742;
+  color: #1fc742;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100px;
+  background: none;
+  font-family: "Press Start 2P", cursive;
 }
